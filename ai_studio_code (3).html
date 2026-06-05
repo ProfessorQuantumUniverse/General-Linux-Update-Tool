@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Server Update Script Generator - Professional</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome für Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-100 font-sans flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-950 border-b border-slate-800 py-4 px-6 flex items-center justify-between shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="bg-blue-600 p-2 rounded-lg text-white">
+                <i class="fa-solid fa-server text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">Linux Update-Skript Generator</h1>
+                <p class="text-xs text-slate-400">Generieren Sie transparente, unverschleierte Shell-Update-Skripte</p>
+            </div>
+        </div>
+        <div class="text-xs text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+            Transparenz- & Sicherheitsmodus Aktiviert
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- Left Column: Form & Settings -->
+        <section class="w-full lg:w-1/2 p-6 overflow-y-auto border-r border-slate-800 custom-scrollbar space-y-6">
+            
+            <div class="border-b border-slate-800 pb-2">
+                <h2 class="text-lg font-semibold text-blue-400 flex items-center">
+                    <i class="fa-solid fa-gears mr-2"></i>Erweiterte Konfiguration
+                </h2>
+                <p class="text-xs text-slate-400">Passen Sie die Robustheitsparameter und Module individuell an.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- 1. System & Paths -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-md font-semibold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <span>1. Basis-Einstellungen & Pfade</span>
+                        <i class="fa-solid fa-folder text-slate-500"></i>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Skript-Speicherpfad</label>
+                            <input type="text" id="binPath" value="/usr/local/bin/sys_updater.sh" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Custom Befehl (Alias-Link)</label>
+                            <input type="text" id="aliasName" value="sysupdate" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Logdatei-Pfad</label>
+                            <input type="text" id="logFile" value="/var/log/sys_updater.log" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Log-Aufbewahrung (Tage)</label>
+                            <input type="number" id="logRotateDays" value="14" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Hardware Checks & Safeguards -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-md font-semibold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <span>2. Hardware- & Sicherheitsprüfungen (Safeguards)</span>
+                        <i class="fa-solid fa-shield-halved text-slate-500"></i>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Min. freier Speicherplatz (GB)</label>
+                            <input type="number" id="minSpace" value="5" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Sperren-Wartezeit (Sekunden)</label>
+                            <input type="number" id="lockWaitTime" value="300" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="space-y-2 pt-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="checkRam" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">RAM-Verfügbarkeit prüfen <span class="text-xs text-slate-500">(beugt OOM-Killer vor)</span></label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="checkCpu" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">CPU-Überlastungsschutz aktivieren</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Redundancy & Backups -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-md font-semibold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <span>3. Ausfallsicherheit & Backups</span>
+                        <i class="fa-solid fa-copy text-slate-500"></i>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="timeshiftEnabled" class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">Präventiven Timeshift-System-Snapshot erstellen <span class="text-xs text-slate-500">(falls installiert)</span></label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="backupEnabled" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">Lokales Backup wichtiger Konfigurationen (/etc, cron, etc.)</label>
+                        </div>
+                        <div id="backupOptions" class="pl-6 space-y-2">
+                            <label class="block text-xs font-medium text-slate-400">Backup-Zielverzeichnis</label>
+                            <input type="text" id="backupDir" value="/var/backups/sys_updater_pre" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Package Management -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <h3 class="text-md font-semibold text-slate-200 flex items-center">
+                            <input type="checkbox" id="aptEnabled" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            4. Paketverwaltung (APT, DNF, Pacman)
+                        </h3>
+                        <i class="fa-solid fa-box-open text-slate-500"></i>
+                    </div>
+                    
+                    <div id="aptOptions" class="space-y-3 pl-6">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="aptDistUpgrade" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">Distributions-Upgrade erlauben (dist-upgrade / full-upgrade)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="aptCleanup" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">Ungenutzte Pakete entfernen (autoremove & autoclean)</label>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="flatpakEnabled" class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                                <label class="text-sm text-slate-300">Flatpak-Updates integrieren</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="snapEnabled" class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                                <label class="text-sm text-slate-300">Snap-Updates integrieren</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Docker Management -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <h3 class="text-md font-semibold text-slate-200 flex items-center">
+                            <input type="checkbox" id="dockerEnabled" class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            5. Docker Container Updates
+                        </h3>
+                        <i class="fa-brands fa-docker text-slate-500"></i>
+                    </div>
+                    
+                    <div id="dockerOptions" class="space-y-4 pl-6 hidden">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 font-semibold">Update-Methode</label>
+                            <select id="dockerMethod" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                                <option value="watchtower">Watchtower (Einmaliger temporärer Suchlauf - Empfohlen)</option>
+                                <option value="compose">Manuelles Docker-Compose Verzeichnis-Scannen</option>
+                            </select>
+                        </div>
+                        
+                        <div id="dockerComposePathsDiv" class="hidden">
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Docker-Compose Suchpfade (kommagetrennt)</label>
+                            <input type="text" id="dockerComposePaths" value="/opt/containers, /home/user/apps" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" id="dockerPrune" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">Ungenutzte Docker-Ressourcen bereinigen (system prune)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Firewall & Security -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-md font-semibold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <span>6. Sicherheit, Firewall & Post-Restart</span>
+                        <i class="fa-solid fa-lock text-slate-500"></i>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="firewallReload" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">Firewall-Regeln neu laden (UFW / Firewalld)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="securityAudit" checked class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 rounded focus:ring-blue-500 mr-2">
+                            <label class="text-sm text-slate-300">Sicherheits-Audit nach Update</label>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Dienste nach Update gezielt neu starten (kommagetrennt)</label>
+                        <input type="text" id="restartServices" placeholder="nginx, mysql, php-fpm" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        <p class="text-xs text-slate-500 mt-1">Dienste werden nach dem Upgrade gestartet und auf Betrieb überprüft.</p>
+                    </div>
+                </div>
+
+                <!-- 7. Notifications -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-md font-semibold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <span>7. Benachrichtigungen (Webhooks)</span>
+                        <i class="fa-solid fa-bell text-slate-500"></i>
+                    </h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Discord Webhook-URL</label>
+                            <input type="text" id="discordWebhook" placeholder="https://discord.com/api/webhooks/..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Telegram Bot Token</label>
+                                <input type="text" id="telegramToken" placeholder="123456:ABC-DEF..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Telegram Chat-ID</label>
+                                <input type="text" id="telegramChatId" placeholder="-100123456789" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Post-Actions & Power -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-md font-semibold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <span>8. Aktionen nach dem Update</span>
+                        <i class="fa-solid fa-power-off text-slate-500"></i>
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Reboot-Verhalten</label>
+                        <select id="rebootStrategy" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                            <option value="needed" selected>Nur wenn vom System benötigt (z.B. Kernel-Update)</option>
+                            <option value="always">Immer neu starten (Erzwungener Reboot)</option>
+                            <option value="never">Niemals automatisch neu starten</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Outputs -->
+        <section class="w-full lg:w-1/2 p-6 overflow-y-auto bg-slate-950 flex flex-col custom-scrollbar space-y-6">
+            
+            <!-- Terminal Output Section -->
+            <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-emerald-400 flex items-center">
+                        <i class="fa-solid fa-square-terminal mr-2"></i>
+                        Transparenter Terminal-Installationsbefehl (Klartext)
+                    </h2>
+                    <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Kein Base64</span>
+                </div>
+                <p class="text-xs text-slate-400">Dieser Befehl schreibt den Code unverschlüsselt über ein transparentes <code>cat << 'EOF'</code> in die Zieldatei. Perfekt für Audits vor der Ausführung.</p>
+                
+                <div class="relative mt-2">
+                    <textarea id="terminalCommand" readonly class="w-full h-44 bg-slate-900 border border-slate-800 rounded-xl p-4 text-xs font-mono text-emerald-300 focus:outline-none custom-scrollbar select-all resize-none"></textarea>
+                    <button onclick="copyToClipboard('terminalCommand')" class="absolute top-3 right-3 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1 border border-slate-700 transition">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Kopieren</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preview of generated Bash Script -->
+            <div class="flex-1 flex flex-col min-h-[400px]">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-semibold text-slate-300"><i class="fa-regular fa-file-code mr-2"></i>Generiertes Skript (Vorschau)</h2>
+                    <button onclick="downloadScriptFile()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 transition">
+                        <i class="fa-solid fa-file-arrow-down"></i>
+                        <span>Skript als .sh herunterladen</span>
+                    </button>
+                </div>
+                <div class="relative flex-1 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col">
+                    <pre class="flex-1 p-4 overflow-auto text-xs font-mono text-slate-300 custom-scrollbar select-text"><code id="scriptPreview"></code></pre>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-3 px-6 text-center text-xs text-slate-500">
+        Engine v3.0 | 100% Transparenz-Modus | Redundantes Linux Admin-Framework
+    </footer>
+
+    <!-- Logic Engine -->
+    <script>
+        // Event Listeners for UI state handling
+        document.getElementById('backupEnabled').addEventListener('change', function(e) {
+            document.getElementById('backupOptions').style.display = e.target.checked ? 'block' : 'none';
+        });
+
+        document.getElementById('dockerEnabled').addEventListener('change', function(e) {
+            const opts = document.getElementById('dockerOptions');
+            if(e.target.checked) {
+                opts.classList.remove('hidden');
+            } else {
+                opts.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('dockerMethod').addEventListener('change', function(e) {
+            const compDiv = document.getElementById('dockerComposePathsDiv');
+            if(e.target.value === 'compose') {
+                compDiv.classList.remove('hidden');
+            } else {
+                compDiv.classList.add('hidden');
+            }
+        });
+
+        // Event Listeners for updating Output on settings change
+        const inputs = [
+            'binPath', 'aliasName', 'logFile', 'logRotateDays', 'minSpace', 'lockWaitTime',
+            'checkRam', 'checkCpu', 'aptEnabled', 'aptDistUpgrade', 'aptCleanup', 
+            'flatpakEnabled', 'snapEnabled', 'timeshiftEnabled', 'backupEnabled', 
+            'backupDir', 'dockerEnabled', 'dockerMethod', 'dockerComposePaths', 
+            'dockerPrune', 'firewallReload', 'securityAudit', 'restartServices',
+            'discordWebhook', 'telegramToken', 'telegramChatId', 'rebootStrategy'
+        ];
+        
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', generateAll);
+            document.getElementById(id).addEventListener('change', generateAll);
+        });
+
+        // Initial Generation
+        generateAll();
+
+        function generateScript() {
+            const binPath = document.getElementById('binPath').value || '/usr/local/bin/sys_updater.sh';
+            const logFile = document.getElementById('logFile').value || '/var/log/sys_updater.log';
+            const logRotateDays = document.getElementById('logRotateDays').value || '14';
+            const aliasName = document.getElementById('aliasName').value || 'sysupdate';
+            const minSpace = document.getElementById('minSpace').value || '5';
+            const lockWaitTime = document.getElementById('lockWaitTime').value || '300';
+            
+            const checkRam = document.getElementById('checkRam').checked;
+            const checkCpu = document.getElementById('checkCpu').checked;
+            
+            const backupDir = document.getElementById('backupDir').value || '/var/backups/sys_updater_pre';
+            const backupEnabled = document.getElementById('backupEnabled').checked;
+            const timeshiftEnabled = document.getElementById('timeshiftEnabled').checked;
+            
+            const aptEnabled = document.getElementById('aptEnabled').checked;
+            const aptDistUpgrade = document.getElementById('aptDistUpgrade').checked;
+            const aptCleanup = document.getElementById('aptCleanup').checked;
+            
+            const flatpakEnabled = document.getElementById('flatpakEnabled').checked;
+            const snapEnabled = document.getElementById('snapEnabled').checked;
+            
+            const dockerEnabled = document.getElementById('dockerEnabled').checked;
+            const dockerMethod = document.getElementById('dockerMethod').value;
+            const dockerComposePaths = document.getElementById('dockerComposePaths').value || '';
+            const dockerPrune = document.getElementById('dockerPrune').checked;
+            
+            const firewallReload = document.getElementById('firewallReload').checked;
+            const securityAudit = document.getElementById('securityAudit').checked;
+            const restartServices = document.getElementById('restartServices').value.trim();
+            
+            const discordWebhook = document.getElementById('discordWebhook').value.trim();
+            const telegramToken = document.getElementById('telegramToken').value.trim();
+            const telegramChatId = document.getElementById('telegramChatId').value.trim();
+            
+            const rebootStrategy = document.getElementById('rebootStrategy').value;
+
+            let script = `#!/usr/bin/env bash
+# ==============================================================================
+# HOCHREDUNDANTES & SICHERES SYSTEM-UPDATE BASH-SKRIPT
+# Generiert am: ${new Date().toLocaleString('de-DE')}
+# ==============================================================================
+
+set -Eeuo pipefail
+
+# --- ENUMERATION & STATE-VARIABLEN ---
+LOG_FILE="${logFile}"
+LOCK_FILE="/var/run/sys_updater.lock"
+BACKUP_DIR="${backupDir}"
+MIN_SPACE_GB=${minSpace}
+LOCK_TIMEOUT=${lockWaitTime}
+LOG_ROTATE_DAYS=${logRotateDays}
+
+# Profiling-Zeiten
+START_TIME=\$(date +%s)
+TIME_BACKUP=0
+TIME_PACKAGES=0
+TIME_DOCKER=0
+TIME_RESTARTS=0
+
+# --- FARBIGES TERMINAL-LOGGING ---
+log() {
+    local level="\$1"
+    local msg="\$2"
+    local ts
+    ts=\$(date "+%Y-%m-%d %H:%M:%S")
+    echo "[\$ts] [\$level] \$msg" >> "\$LOG_FILE"
+    
+    local color=""
+    case "\$level" in
+        "INFO")    color="\\e[36m" ;; # Cyan
+        "SUCCESS") color="\\e[32m" ;; # Gruen
+        "WARN")    color="\\e[33m" ;; # Gelb
+        "ERROR")   color="\\e[31m" ;; # Rot
+    esac
+    echo -e "\${color}[\$ts] [\$level] \$msg\\e[0m"
+}
+
+# --- FEHLERBEHANDLUNG & SIGNAL-TRAPS ---
+cleanup() {
+    local exit_code=\$?
+    # Entferne Lockfile nur, wenn es dieser Shell-Prozess erzeugt hat
+    if [ -f "\$LOCK_FILE" ] && [ "\$(cat "\$LOCK_FILE" 2>/dev/null)" = "\$\$" ]; then
+        log "INFO" "Gebe Skript-Sperre frei..."
+        rm -f "\$LOCK_FILE"
+    fi
+    exit \$exit_code
+}
+
+failure_handler() {
+    local line_no="\$1"
+    local last_command="\$2"
+    log "ERROR" "Fehler in Zeile \$line_no bei Ausfuehrung von: '\$last_command'"
+    send_notification "ERROR" "Kritischer Abbruch auf Host '\$(hostname)' in Zeile \$line_no bei Befehl: '\$last_command'"
+    cleanup
+    exit 1
+}
+
+# Signal Traps zur eleganten Bereinigung bei unerwarteten Abbruechen
+trap 'failure_handler \${LINENO} "\$BASH_COMMAND"' ERR
+trap cleanup EXIT SIGINT SIGTERM
+
+# --- SYSTEM-NOTIFICATIONS (SLACK, DISCORD, TELEGRAM) ---
+send_notification() {
+    local status="\$1"
+    local message="\$2"
+    local host="\$(hostname)"
+`;
+
+            if (discordWebhook) {
+                script += `
+    # Discord Integration
+    local discord_url="${discordWebhook}"
+    if [ -n "\$discord_url" ]; then
+        local color=3066993
+        [ "\$status" = "ERROR" ] && color=15158332
+        [ "\$status" = "WARN" ] && color=15105570
+        local payload
+        payload=\$(cat <<EOF
+{
+  "embeds": [{
+    "title": "Update Status: \$status (\$host)",
+    "description": "\$message",
+    "color": \$color,
+    "timestamp": "\$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  }]
+}
+EOF
+)
+        curl -s -H "Content-Type: application/json" -X POST -d "\$payload" "\$discord_url" &>/dev/null || true
+    fi
+`;
+            }
+
+            if (telegramToken && telegramChatId) {
+                script += `
+    # Telegram Integration
+    local tel_token="${telegramToken}"
+    local tel_chat="${telegramChatId}"
+    if [ -n "\$tel_token" ] && [ -n "\$tel_chat" ]; then
+        local text="⚠️ *System-Update \$status* (%20Host:%20\$host)%0A%0A\$message"
+        curl -s -X POST "https://api.telegram.org/bot\${tel_token}/sendMessage" \\
+            -d "chat_id=\${tel_chat}" \\
+            -d "text=\${text}" \\
+            -d "parse_mode=Markdown" &>/dev/null || true
+    fi
+`;
+            }
+
+            script += `
+}
+
+# --- INITIALE PRUEFUNGEN & SAFEGUARDS ---
+log "INFO" "Starte Update-Analysen..."
+
+# 1. Privilegienpruefung
+if [ "\$EUID" -ne 0 ]; then
+    log "ERROR" "Dieses Skript erfordert Root-Rechte zur Ausfuehrung."
+    exit 1
+fi
+
+# 2. Lockfile-Verfahren mit PID-Pruefung
+if [ -f "\$LOCK_FILE" ]; then
+    local active_pid
+    active_pid=\$(cat "\$LOCK_FILE" 2>/dev/null || echo "")
+    if [ -n "\$active_pid" ] && kill -0 "\$active_pid" 2>/dev/null; then
+        log "ERROR" "Eine andere Instanz des Skripts (PID \$active_pid) laeuft bereits."
+        exit 1
+    fi
+fi
+echo "\$\$" > "\$LOCK_FILE"
+
+# 3. Logdatei-Saeuberung (Logrotation)
+if [ -f "\$LOG_FILE" ]; then
+    log "INFO" "Bereinige Log-Eintraege, die aelter als \$LOG_ROTATE_DAYS Tage sind..."
+    find \$(dirname "\$LOG_FILE") -name "\$(basename "\$LOG_FILE")*" -mtime +\$LOG_ROTATE_DAYS -exec rm -f {} \\; 2>/dev/null || true
+fi
+
+# 4. Redundanter Konnektivitaets-Test
+log "INFO" "Validiere Internetverbindung..."
+local check_hosts=("1.1.1.1" "8.8.8.8" "9.9.9.9")
+local net_ok=false
+for chost in "\${check_hosts[@]}"; do
+    if ping -c 1 -W 2 "\$chost" &>/dev/null; then
+        net_ok=true
+        break
+    fi
+done
+if [ "\$net_ok" = false ]; then
+    log "ERROR" "Keine Internetverbindung verfuegbar. Abbruch."
+    exit 1
+fi
+log "SUCCESS" "Verbindung zum Internet gewaehrleistet."
+
+# 5. Lokaler Speicherplatz-Check
+log "INFO" "Pruefe verfuegbaren Speicherplatz..."
+local disk_kb
+disk_kb=\$(df --output=avail / | tail -n1)
+local disk_gb=\$((disk_kb / 1024 / 1024))
+if [ "\$disk_gb" -lt "\$MIN_SPACE_GB" ]; then
+    log "ERROR" "Zu wenig Speicherplatz auf root-Mount (Nur \${disk_gb}GB verfuegbar. Erforderlich: \${MIN_SPACE_GB}GB)."
+    exit 1
+fi
+log "SUCCESS" "Speicherplatz ausreichend (\${disk_gb}GB frei)."
+`;
+
+            if (checkRam) {
+                script += `
+# 6. Arbeitsspeicher-Safeguard (Schutz vor RAM-Abstuerzen)
+log "INFO" "Pruefe RAM-Verfuegbarkeit..."
+local free_ram
+free_ram=\$(free -m | awk '/^Mem:/{print \$7}')
+if [ -n "\$free_ram" ] && [ "\$free_ram" -lt 150 ]; then
+    log "WARN" "Extrem geringer verfuegbarer Arbeitsspeicher (\${free_ram} MB). Out-of-Memory-Gefahr waehrend der Paketkonfiguration!"
+else
+    log "SUCCESS" "RAM-Reserven geprueft (\${free_ram} MB verfuegbar)."
+fi
+`;
+            }
+
+            if (checkCpu) {
+                script += `
+# 7. CPU-Ueberlastungsprüfung
+log "INFO" "Pruefe aktuelle Systemlast..."
+local cpu_load
+cpu_load=\$(awk '{print \$1}' /proc/loadavg)
+local cpu_cores
+cpu_cores=\$(nproc)
+local max_tolerable_load=\$((cpu_cores * 2))
+if [ "\${cpu_load%.*}" -gt "\$max_tolerable_load" ]; then
+    log "WARN" "Warnung: Die Systemlast ist extrem hoch (Load: \$cpu_load bei \$cpu_cores CPU-Kernen). Update verzoegert oder unter erhohtem Risiko."
+else
+    log "SUCCESS" "CPU-Last liegt im Normalbereich (Load: \$cpu_load bei \$cpu_cores Kernen)."
+fi
+`;
+            }
+
+            script += `
+# 8. Unvollständige Systemd-Dienste vorab erfassen
+log "INFO" "Erfasse Zustand der Systemd-Dienste..."
+local pre_failed_services
+pre_failed_services=\$(systemctl list-units --state=failed --no-legend)
+if [ -n "\$pre_failed_services" ]; then
+    log "WARN" "Bereits vor dem Update fehlerhafte Dienste gefunden:"
+    log "WARN" "\$pre_failed_services"
+else
+    log "SUCCESS" "Alle Systemd-Dienste laufen normal."
+fi
+
+# 9. Wartemodus fuer andere Paketmanager-Prozesse (Apt-Locks)
+log "INFO" "Pruefe auf konkurrierende Paket-Prozesse..."
+local elapsed=0
+while pgrep -f "apt|apt-get|dpkg|unattended-upgr|dnf" &>/dev/null; do
+    if [ \$elapsed -ge \$LOCK_TIMEOUT ]; then
+        log "ERROR" "Die Paketverwaltung ist dauerhaft blockiert. Skript bricht ab."
+        exit 1
+    fi
+    log "WARN" "Paketverwaltung ist durch einen anderen Prozess belegt. Warte 10s... (Vergangen: \${elapsed}s/\${LOCK_TIMEOUT}s)"
+    sleep 10
+    elapsed=\$((elapsed + 10))
+done
+log "SUCCESS" "Keine konkurrierenden Paketmanager-Prozesse aktiv."
+`;
+
+            if (timeshiftEnabled) {
+                script += `
+# --- TIMESHIFT-BACKUP-SCHRITT ---
+if command -v timeshift &>/dev/null; then
+    log "INFO" "Erzeuge automatischen Timeshift-Systemsnapshot..."
+    if timeshift --create --comments "Automatisches Pre-Update Snapshot" --tags D; then
+        log "SUCCESS" "Timeshift-Snapshot erfolgreich erzeugt."
+    else
+        log "WARN" "Timeshift-Snapshot fehlgeschlagen. Verfahre mit Update..."
+    fi
+else
+    log "INFO" "Timeshift nicht installiert. Ueberspringe Snapshot."
+fi
+`;
+            }
+
+            if (backupEnabled) {
+                script += `
+# --- BACKUP-SCHRITT (DATEI-SICHERUNG) ---
+local t_backup_start=\$(date +%s)
+log "INFO" "Sichere Dateibestände nach \$BACKUP_DIR..."
+mkdir -p "\$BACKUP_DIR"
+local backup_targets=("/etc" "/var/spool/cron")
+for btarget in "\${backup_targets[@]}"; do
+    if [ -d "\$btarget" ]; then
+        local base_target
+        base_target=\$(basename "\$btarget")
+        local archive_file="\${BACKUP_DIR}/\${base_target}_pre_update_\$(date +%Y%m%d_%H%M%S).tar.gz"
+        if tar -czf "\$archive_file" "\$btarget" 2>/dev/null; then
+            log "SUCCESS" "Sicherung erfolgreich: \$archive_file"
+        else
+            log "WARN" "Sicherung von \$btarget unvollständig oder fehlgeschlagen."
+        fi
+    fi
+done
+TIME_BACKUP=\$((\$(date +%s) - t_backup_start))
+`;
+            }
+
+            if (aptEnabled) {
+                script += `
+# --- PAKETMANAGER-UPDATES ---
+local t_package_start=\$(date +%s)
+export DEBIAN_FRONTEND=noninteractive
+export UCF_FORCE_CONFFOLD=true
+
+if command -v apt-get &>/dev/null; then
+    log "INFO" "APT-Paketmanager wird aktualisiert..."
+    log "INFO" "Säubere eventuell verbleibende dpkg-Konflikte (dpkg --configure -a)..."
+    dpkg --configure -a || true
+    
+    log "INFO" "Aktualisiere Paketlisten (apt-get update)..."
+    apt-get update -y || log "WARN" "Einige Quell-Paketlisten konnten nicht geladen werden."
+    
+    log "INFO" "Installiere ausstehende Software-Upgrades..."
+    apt-get upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+`;
+                if (aptDistUpgrade) {
+                    script += `
+    log "INFO" "Führe Distributions-Upgrade (dist-upgrade / full-upgrade) aus..."
+    apt-get dist-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+`;
+                }
+                if (aptCleanup) {
+                    script += `
+    log "INFO" "Entferne nicht mehr benoetigte Pakete & Cache (autoremove / autoclean)..."
+    apt-get autoremove -y || true
+    apt-get autoclean -y || true
+`;
+                }
+                script += `
+    log "SUCCESS" "APT-Upgrade-Phase abgeschlossen."
+    
+elif command -v dnf &>/dev/null; then
+    log "INFO" "DNF-Paketmanager wird aktualisiert..."
+    dnf upgrade -y
+`;
+                if (aptCleanup) {
+                    script += `
+    dnf autoremove -y || true
+    dnf clean all || true
+`;
+                }
+                script += `
+    log "SUCCESS" "DNF-Upgrade-Phase abgeschlossen."
+    
+elif command -v pacman &>/dev/null; then
+    log "INFO" "Pacman-Paketmanager wird aktualisiert..."
+    pacman -Syu --noconfirm
+    log "SUCCESS" "Pacman-Upgrade-Phase abgeschlossen."
+else
+    log "WARN" "Kein bekannter Paketmanager (APT/DNF/Pacman) auf diesem System gefunden."
+fi
+TIME_PACKAGES=\$((\$(date +%s) - t_package_start))
+`;
+            }
+
+            if (flatpakEnabled) {
+                script += `
+# --- FLATPAK ---
+if command -v flatpak &>/dev/null; then
+    log "INFO" "Führe Updates fuer Flatpaks aus..."
+    flatpak update -y || log "WARN" "Einige Flatpaks konnten nicht aktualisiert werden."
+fi
+`;
+            }
+
+            if (snapEnabled) {
+                script += `
+# --- SNAP ---
+if command -v snap &>/dev/null; then
+    log "INFO" "Führe Updates fuer Snap-Pakete aus..."
+    snap refresh || log "WARN" "Einige Snaps konnten nicht aktualisiert werden."
+fi
+`;
+            }
+
+            if (dockerEnabled) {
+                script += `
+# --- DOCKER CONTAINER ROUTINE ---
+local t_docker_start=\$(date +%s)
+if command -v docker &>/dev/null; then
+    log "INFO" "Docker Daemon gefunden. Starte Update-Vorgänge..."
+`;
+                if (dockerMethod === 'watchtower') {
+                    script += `
+    log "INFO" "Führe Watchtower einmalig im 'run-once' Modus aus..."
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --run-once --cleanup || log "WARN" "Watchtower meldete Unregelmaessigkeiten."
+`;
+                } else if (dockerMethod === 'compose') {
+                    script += `
+    # Docker Compose Projektverzeichnisse scannen
+    local compose_dirs=(${dockerComposePaths.split(',').map(p => `"${p.trim()}"`).join(' ')})
+    for cdir in "\${compose_dirs[@]}"; do
+        if [ -d "\$cdir" ]; then
+            log "INFO" "Scanne Ordner nach Docker-Compose-Dateien: \$cdir"
+            find "\$cdir" -type f \\( -name "docker-compose.yml" -o -name "compose.yml" \\) 2>/dev/null | while read -r compose_file; do
+                local proj_dir
+                proj_dir=\$(dirname "\$compose_file")
+                log "INFO" "Projekt gefunden: \$proj_dir"
+                (
+                    cd "\$proj_dir" || exit 1
+                    docker compose pull || docker-compose pull || true
+                    docker compose up -d --remove-orphans || docker-compose up -d --remove-orphans || true
+                )
+            done
+        else
+            log "WARN" "Konfiguriertes Docker Compose-Verzeichnis existiert nicht: \$cdir"
+        fi
+    done
+`;
+                }
+
+                if (dockerPrune) {
+                    script += `
+    log "INFO" "Säubere ungenutzte Docker-Objekte (Prune)..."
+    docker system prune -af --volumes || log "WARN" "Docker-Cleanup unvollständig durchgeführt."
+`;
+                }
+                script += `
+    log "SUCCESS" "Docker-Updates durchgeführt."
+else
+    log "WARN" "Docker ist nicht auf diesem System installiert. Überspringe Docker-Updates."
+fi
+TIME_DOCKER=\$((\$(date +%s) - t_docker_start))
+`;
+            }
+
+            if (firewallReload) {
+                script += `
+# --- FIREWALL RELOAD ---
+if command -v ufw &>/dev/null && ufw status | grep -q "active"; then
+    log "INFO" "Lade UFW Firewall-Regeln neu..."
+    ufw reload || log "WARN" "UFW-Reload fehlgeschlagen."
+elif command -v firewall-cmd &>/dev/null && systemctl is-active --quiet firewalld; then
+    log "INFO" "Lade Firewalld Firewall-Regeln neu..."
+    firewall-cmd --reload || log "WARN" "Firewalld-Reload fehlgeschlagen."
+fi
+`;
+            }
+
+            if (securityAudit) {
+                script += `
+# --- MINI SICHERHEITS-AUDIT ---
+log "INFO" "Starte kurzes Sicherheits-Audit..."
+if command -v journalctl &>/dev/null; then
+    local ssh_fails
+    ssh_fails=\$(journalctl _SYSTEMD_UNIT=ssh.service 2>/dev/null | grep "Failed password" | wc -l || echo "0")
+    log "INFO" "Unerlaubte SSH-Loginversuche seit Log-Erfassung: \$ssh_fails"
+fi
+if command -v ss &>/dev/null; then
+    log "INFO" "Offene Listening-Ports (TCP/UDP):"
+    ss -tulpn | grep LISTEN || true
+fi
+`;
+            }
+
+            if (restartServices) {
+                script += `
+# --- GEZIELTER POST-UPDATE DIENSTE-RESTART ---
+local t_restarts_start=\$(date +%s)
+local restart_targets=(${restartServices.split(',').map(s => `"${s.trim()}"`).join(' ')})
+for service in "\${restart_targets[@]}"; do
+    if systemctl list-units --type=service --all | grep -q "\${service}.service"; then
+        log "INFO" "Starte Dienst neu: \$service"
+        systemctl restart "\$service" || log "WARN" "Fehler beim Neustart von \$service"
+        
+        # Testen, ob der Dienst nach dem Start aktiv ist
+        sleep 2
+        if systemctl is-active --quiet "\$service"; then
+            log "SUCCESS" "Dienst \$service laeuft stabil."
+        else
+            log "ERROR" "Dienst \$service ist nach dem Neustart fehlgeschlagen!"
+        fi
+    else
+        log "WARN" "Dienst \$service ist nicht im System registriert. Überspringe Neustart."
+    fi
+done
+TIME_RESTARTS=\$((\$(date +%s) - t_restarts_start))
+`;
+            }
+
+            script += `
+# --- ABSCHLIESSENDE INTEGRITÄTS-VALIDIERUNG ---
+log "INFO" "Fuehre abschliessende Systemd-Diagnose aus..."
+local post_failed_services
+post_failed_services=\$(systemctl list-units --state=failed --no-legend)
+
+# Profiling Auswertung
+local total_duration=\$((\$(date +%s) - START_TIME))
+local run_summary="Updates abgeschlossen in \${total_duration}s. (Backups: \${TIME_BACKUP}s | Pakete: \${TIME_PACKAGES}s | Docker: \${TIME_DOCKER}s | Restarts: \${TIME_RESTARTS}s)"
+
+log "SUCCESS" "\$run_summary"
+
+if [ -n "\$post_failed_services" ]; then
+    log "WARN" "Einige Systemd-Dienste weisen nach den Updates Fehler auf:"
+    log "WARN" "\$post_failed_services"
+    send_notification "WARN" "Das Update wurde mit einigen Fehlern abgeschlossen auf Host '\$(hostname)'.\\n\\n\$run_summary\\n\\nFehlerhafte Dienste:\\n\$post_failed_services"
+else
+    log "SUCCESS" "Integritaetstest erfolgreich. Keine fehlerhaften Systemd-Dienste registriert."
+    send_notification "SUCCESS" "Das Update wurde auf Host '\$(hostname)' fehlerfrei durchlaufen!\\n\\n\$run_summary"
+fi
+
+# --- REBOOT EVALUIERUNG ---
+`;
+
+            if (rebootStrategy === 'always') {
+                script += `
+log "WARN" "Reboot-Strategie ist auf 'Always' konfiguriert. Der Server startet in 5 Sekunden neu..."
+sleep 5
+reboot
+`;
+            } else if (rebootStrategy === 'needed') {
+                script += `
+if [ -f /var/run/reboot-required ]; then
+    log "WARN" "Ein System-Reboot wird fuer die Updates benoetigt (Kernel-Update o.ae.). Starte neu in 5 Sekunden..."
+    sleep 5
+    reboot
+else
+    log "INFO" "Kein System-Neustart erforderlich. Skript beendet."
+fi
+`;
+            } else {
+                script += `
+log "INFO" "Reboot-Strategie steht auf 'Never'. Automatischer Neustart uebersprungen."
+`;
+            }
+
+            script += `
+exit 0
+`;
+            return script;
+        }
+
+        function generateAll() {
+            const scriptContent = generateScript();
+            const binPath = document.getElementById('binPath').value || '/usr/local/bin/sys_updater.sh';
+            const aliasName = document.getElementById('aliasName').value || 'sysupdate';
+            
+            // Einzeiliger Installer-Befehl (Klartext über cat << 'EOF')
+            const installCmd = `sudo tee ${binPath} << 'EOF' > /dev/null\n${scriptContent}EOF\nsudo chmod +x ${binPath}\nsudo ln -sf ${binPath} /usr/local/bin/${aliasName}\necho -e "\\e[32mInstallation erfolgreich! Führe das Skript global aus über: ${aliasName}\\e[0m"`;
+            
+            document.getElementById('terminalCommand').value = installCmd;
+            document.getElementById('scriptPreview').textContent = scriptContent;
+        }
+
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            
+            alert('Befehl wurde in die Zwischenablage kopiert!');
+        }
+
+        function downloadScriptFile() {
+            const scriptContent = generateScript();
+            const aliasName = document.getElementById('aliasName').value || 'sysupdate';
+            const blob = new Blob([scriptContent], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${aliasName}.sh`;
+            link.click();
+        }
+    </script>
+</body>
+</html>
