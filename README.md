@@ -1,3 +1,9 @@
+> [!NOTE]
+> **Archived – no longer maintained.** The generator is finished; the website stays online. Always review generated scripts before running them as root.
+> The code stays available for reference, but there will be no updates or security fixes.
+>
+> *Archiviert – wird nicht mehr gepflegt. Der Generator ist fertig, die Website bleibt online. Generierte Skripte vor dem Ausführen als root immer prüfen.*
+
 <div align="center">
 
 # 🐧 Linux Update Script Generator
